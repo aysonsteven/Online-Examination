@@ -1,0 +1,62 @@
+<div class="container-fluid">
+
+
+
+
+<div class="row">
+  <button class="col-xs-3 btn btn-primary" (click)="onClickCreateSubjectModal()"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+  <div class="col-xs-9">
+    <input class="form-control"  type="text" placeholder="&#xF002; Search">
+  </div>
+</div>
+<br/>
+
+<div class="table-responsive">
+
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th>Subject</th>
+      <th>Time</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let subject of subject_data; let i = index">
+    <tr>
+      <td>{{ subject.content }}</td>
+
+      <td>{{ subject.varchar_3 }}</td>
+      <td>
+
+        <span class="tag tag-success" *ngIf="subject.varchar_1 == 'true'">
+          Active
+        </span>
+        <span class="tag tag-danger" *ngIf="subject.varchar_1 == 'false'">Inactive</span>
+
+      </td>
+
+      <td>
+
+        <span class="tag tag-info" (click)="onClickAddQuestions(subject.idx, subject.varchar_2 )"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+        <span class="tag tag-success" (click)="onClickEdit( subject.idx, subject.content, subject.varchar_1, subject.varchar_2, subject.varchar_3 )">
+          <i class="fa fa-pencil-square-o" aria-hidden="true">
+          </i>
+        </span> 
+        <span class="tag tag-danger" (click)="onClickDelete( subject.idx, i )">
+          <i class="fa fa-trash-o" aria-hidden="true">
+          </i>
+        </span>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+</div>
+
+
+</div>
