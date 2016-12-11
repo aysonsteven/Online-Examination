@@ -20,8 +20,8 @@ English Quiz Module
 
 
 ###TODOs
->>File Structure
->>Student Panel
+    File Structure
+    Student Panel
 
 ###Admin:
     id: aysonsteven
