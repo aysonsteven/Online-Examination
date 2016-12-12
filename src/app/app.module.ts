@@ -24,7 +24,10 @@ import { CategoryparentComponent } from './categoryparent/categoryparent.compone
 import { QuestionsComponent } from './questions/questions.component';
 
 import { DataService } from './services/data-service/data.service';
-import { RegistrationComponent } from './registration/registration.component'
+import { RegistrationComponent } from './registration/registration.component';
+import { QuestionformComponent } from './questionform/questionform.component';
+import { ExampageComponent } from './exampage/exampage.component';
+import { FinalComponent } from './final/final.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { RegistrationComponent } from './registration/registration.component'
     SubjectformComponent,
     CategoryparentComponent,
     QuestionsComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    QuestionformComponent,
+    ExampageComponent,
+    FinalComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +58,6 @@ import { RegistrationComponent } from './registration/registration.component'
   ],
   providers: [ Member, MemberRoutingService, NgbActiveModal, Post, DataService ],
   bootstrap: [AppComponent],
-  entryComponents:[ CategoryComponent, SubjectformComponent, CategoryformComponent ]
+  entryComponents:[ CategoryComponent, SubjectformComponent, CategoryformComponent, QuestionformComponent ]
 })
 export class AppModule { }

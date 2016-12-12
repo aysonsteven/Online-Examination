@@ -11,6 +11,7 @@ import { Post, SEARCH_QUERY_DATA, POST_DATA } from '../philgo-api/v2/post';
   inputs: [ 'category' ]
 })
 export class CategoryComponent implements OnInit {
+  val = 1;
   category_data = [];
   constructor(
     private router: Router,

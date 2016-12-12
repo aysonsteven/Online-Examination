@@ -1,3 +1,27 @@
-<p>
-  examhome works!
-</p>
+<div class="container">
+
+    <div class="form-group row">
+      <label for="category" class="col-xs-3 col-form-label">Select Category:</label>
+      <div class="col-xs-9">
+        <select class="form-control form-control-sm" name="category" id="category" [(ngModel)]="selectedcategory" (ngModelChange)="onChangeGetSubject(selectedcategory)">
+          <option *ngFor="let category of category_data" [value]="category.idx">{{ category.content }}</option>
+        </select>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group row">
+      <label for="category" class="col-xs-3 col-form-label">Select Subject:</label>
+      <div class="col-xs-9">
+        <select class="form-control form-control-sm" name="subject" id="subject" [(ngModel)]="selectedsubject" (ngModelChange)="onChangeGetExam(selectedsubject)" *ngIf="enabled">
+          <option *ngFor="let subject of subject_data" [value]="subject.idx">{{ subject.content }}</option>
+        </select>
+
+        <select class="form-control form-control-sm" name="subject" id="subject" *ngIf="!enabled" disabled>
+          <option *ngFor="let subject of subject_data" [value]="subject.idx">{{ subject.content }}</option>
+        </select>
+      </div>
+    </div>
+
+</div>

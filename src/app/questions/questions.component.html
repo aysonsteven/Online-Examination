@@ -13,71 +13,31 @@
   </div>
 
 
-  <button class="btn btn-secondary btn-sm" (click)="switch = ! switch" *ngIf="activeCheck">Add Question</button>
+  <button class="btn btn-secondary btn-sm" (click)="onClickAddQuestions()" *ngIf="activeCheck">Add Question</button>
   <button class="btn btn-secondary btn-sm" disabled *ngIf="!activeCheck">Add Question</button>
-
-    <form *ngIf="switch">
-
-      <div class="form-group row">
-        <label for="question" class="col-xs-3 col-form-label">Question</label>
-        <div class="col-xs-9">
-          <input class="form-control form-control-sm"   type="text" id="question" name="question">
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="choice1" class="col-xs-3 col-form-label">Choice1</label>
-        <div class="col-xs-9">
-          <input class="form-control form-control-sm"   type="text" id="choice1" name="choice1">
-        </div>
-      </div>
-
-
-
-
-      <div class="form-group row">
-        <label for="choice2" class="col-xs-3 col-form-label">Choice2</label>
-        <div class="col-xs-9">
-          <input class="form-control form-control-sm"   type="text" id="choice2" name="choice2">
-        </div>
-      </div>
-
-
-
-      <div class="form-group row">
-        <label for="choice3" class="col-xs-3 col-form-label">Choice3</label>
-        <div class="col-xs-9">
-          <input class="form-control form-control-sm"   type="text" id="choice3" name="choice3">
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="choice4" class="col-xs-3 col-form-label">Choice4</label>
-        <div class="col-xs-9">
-          <input class="form-control form-control-sm"   type="text" id="choice4" name="choice4">
-        </div>
-      </div>
-
-
-
-    <div class="form-group row">
-      <label for="answer" class="col-xs-3 col-form-label">Answer</label>
-      <div class="col-xs-9">
-        <select>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>          
-        </select>
-      </div>
-    </div>
-
-
-
-
-    </form>
-
-
 </div>
+
+<br/>
+<hr/>
+<ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="subjectInfo.varchar_1 == 'true'">
+  <ngb-panel id="{{ exam.idx }}" title="Question No. {{ i + 1}}" *ngFor="let exam of question_data; let i = index">
+    <template ngbPanelContent>
+        {{ exam.content }}
+      <ol choices>
+        <li>{{ exam.varchar_1 }} </li>
+        <li>{{ exam.varchar_2 }} </li>
+        <li>{{ exam.varchar_3 }} </li>
+        <li>{{ exam.varchar_4 }} </li>
+      </ol>
+      <hr/>
+      <h4>{{ exam.varchar_5 }}</h4>
+      <button class="btn btn-success btn-sm" (click)="onClickEdit( exam.idx, exam.content, exam.varchar_1, exam.varchar_2, exam.varchar_3, exam.varchar_4, exam.varchar_5 )">EDIT</button> |
+      <button class="btn btn-danger btn-sm" (click)="onClickDelete( exam.idx, i )">DELETE</button>  
+      
+  
+    </template>
+  </ngb-panel>
+
+
+  
+</ngb-accordion>

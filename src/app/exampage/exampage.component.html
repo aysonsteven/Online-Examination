@@ -1,0 +1,46 @@
+<div class="container">
+  
+    <div></div>
+
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h3 class="display-4">{{ subject_data?.content }}</h3>
+    <p class="lead">{{ current_question?.content }}</p>
+
+      <fieldset class="form-group">
+        <legend>Choices</legend>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="radio" id="choice1" value="1" checked [(ngModel)]="radio">
+            {{ current_question?.varchar_1}}
+          </label>
+        </div>
+
+        <div class="form-check">
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="radio" id="choice2" value="2" [(ngModel)]="radio">
+            {{ current_question?.varchar_2}}
+          </label>
+        </div>
+
+        <div class="form-check">
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="radio" id="choice3" value="3" [(ngModel)]="radio">
+            {{ current_question?.varchar_3}}
+          </label>
+        </div>
+
+        <div class="form-check">
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="radio" id="choice4" value="4" [(ngModel)]="radio">
+            {{ current_question?.varchar_4}}
+          </label>
+        </div>
+      </fieldset>
+      <button type="button" class="btn btn-primary btn-sm btn-block" (click)="onClickProceed(radio)">Next</button>
+      <button type="button" class="btn btn-primary btn-sm btn-block">End Exam</button>
+  </div>
+</div>
+
+</div>

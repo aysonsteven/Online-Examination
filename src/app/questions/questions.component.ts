@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Post, POST_DATA } from '../philgo-api/v2/post'
+import { Post, POST_DATA, SEARCH_QUERY_DATA } from '../philgo-api/v2/post'
 import { DataService } from '../services/data-service/data.service';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { QuestionformComponent } from '../questionform/questionform.component';
 
 import { Router, ActivatedRoute, Params } from'@angular/router';
+
+
 
 @Component({
   selector: 'app-questions',
@@ -10,6 +14,9 @@ import { Router, ActivatedRoute, Params } from'@angular/router';
   styleUrls: ['./questions.component.scss']
 })
 export class QuestionsComponent implements OnInit {
+
+  question_data = [];
+  exam_idx:number;
   activeCheck:boolean = true;
   idx:number;
   categoryIDX:number;
@@ -19,7 +26,8 @@ export class QuestionsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private post: Post,
-    private dataService: DataService
+    private dataService: DataService,
+    private modal: NgbModal
   ) { 
     this.idx = this.activatedRoute.snapshot.params['idx'];
     if( this.dataService.categoryIDX ){
@@ -27,6 +35,8 @@ export class QuestionsComponent implements OnInit {
     }
     this.getSubject();
     this.getCategory();
+
+    this.getQuestions();
   }
 
   ngOnInit() {
@@ -53,4 +63,53 @@ export class QuestionsComponent implements OnInit {
       }, err => alert( 'Something went wrong' + err ) )
     }
   }
+
+  onClickAddQuestions(){
+    console.log('passing idx',this.idx)
+    let modalReference = this.modal.open( QuestionformComponent );
+        modalReference.componentInstance.subjectidx = this.idx
+        modalReference.componentInstance.submit.subscribe( exam =>{
+          console.log( 'exam added', exam )
+          this.question_data.push( exam );
+        })
+  }
+
+  onClickEdit( idx, content, choice1, choice2, choice3, choice4, answer ){
+    let modalReference = this.modal.open( QuestionformComponent );
+        modalReference.componentInstance.idx = idx;
+        modalReference.componentInstance.questionForm.question = content;
+        modalReference.componentInstance.questionForm.choice1  = choice1;
+        modalReference.componentInstance.questionForm.choice2 = choice2;
+        modalReference.componentInstance.questionForm.choice3 = choice3;
+        modalReference.componentInstance.questionForm.choice4 = choice4;
+        modalReference.componentInstance.questionForm.answer = answer;
+      modalReference.componentInstance.submit.subscribe( edit_question =>{
+        console.log( 'successfully edited', edit_question );
+        this.getQuestions();
+      })
+  }
+
+  getQuestions(){
+    let data = <SEARCH_QUERY_DATA>{}
+        data.fields = "idx, content, varchar_1, varchar_2, varchar_3, varchar_4, varchar_5";
+        data.from   = "sf_post_data";
+        data.where  = "post_id='job' AND subject='exam' AND varchar_6='" + this.idx + "'";
+    this.post.search( data, question_result =>{
+      this.question_data = question_result.search;
+      console.log('checking exam' , this.question_data)
+    }, err =>{})
+  }
+
+  onClickDelete( idx, index ){
+    let confirmDelete = confirm('Are you sure you want to delete this?');
+    if( confirmDelete == true ){
+      console.log( 'deleting' , idx );
+      this.post.delete( idx, res=>{
+        alert('deleted ' + idx);
+        this.question_data.splice( index, 1 );
+      }, error=>alert( 'error '+ error ) )
+    }else console.log( 'canceled!' )
+  }
+  
+
 }

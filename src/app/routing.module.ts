@@ -7,7 +7,11 @@ import { SubjectComponent } from './subject/subject.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryformComponent } from './categoryform/categoryform.component';
 import { QuestionsComponent } from './questions/questions.component';
-import { RegistrationComponent } from './registration/registration.component'
+import { RegistrationComponent } from './registration/registration.component';
+import { UsersComponent } from './users/users.component';
+import { ResultsComponent } from './results/results.component';
+import { ExampageComponent } from './exampage/exampage.component';
+import { FinalComponent } from './final/final.component';
 
 const link: Routes = [
     { path: 'login', component : LoginComponent },
@@ -16,7 +20,11 @@ const link: Routes = [
     { path: 'dashboard/subjects', component: SubjectComponent },
     { path: 'dashboard/category', component: CategoryComponent },
     { path: 'dashboard/subjects/questions/:idx', component: QuestionsComponent },
-    { path: 'registration', component: RegistrationComponent }
+    { path: 'registration', component: RegistrationComponent },
+    { path: 'users', component: UsersComponent },
+    { path: 'results', component: ResultsComponent },
+    { path: 'exam', component: ExampageComponent },
+    { path: 'final', component: FinalComponent }
 ]
 
 @NgModule({
