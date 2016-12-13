@@ -23,7 +23,6 @@ export class ExampageComponent implements OnInit {
   exam_data =[];
   subject:number;
   questionCount;
-
   current_question;
 
   constructor(
@@ -79,9 +78,15 @@ export class ExampageComponent implements OnInit {
     for( let key in tempq ){
       temp.push( tempq[key] )
     }
-    tempval = {choice1:[1,temp[2]], choice2:[2,temp[3]], choice3:[3,temp[4]], choice4:[4,temp[5]] }
-    this.current_choices = _.shuffle(tempval)
-    console.log( '2nd ', _.shuffle(tempval) );
+    tempval =
+      { 'choices' : [
+        {'key': 1, 'value':temp[2]}, 
+        {'key': 2, 'value':temp[3]},
+        {'key': 3, 'value':temp[4]},
+        {'key': 4, 'value':temp[5]} 
+        ]};
+    this.current_choices = _.shuffle(tempval['choices'])
+    console.log( '2nd ', _.shuffle(tempval['choices']) );
   }
 
 

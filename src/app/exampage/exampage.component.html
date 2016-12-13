@@ -10,39 +10,16 @@
 
       <fieldset class="form-group">
         <legend>Choices</legend>
-        <div class="form-check">
+        <div class="form-check" *ngFor="let c of current_choices">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="radio" id="choice1" value="1" checked [(ngModel)]="radio">
-            {{ current_question?.varchar_1}}
+            <input type="radio" class="form-check-input" name="radio" id="choice1" value="{{c.key}}" checked [(ngModel)]="radio">
+            {{ c.value }}
           </label>
         </div>
 
-        <div class="form-check">
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="radio" id="choice2" value="2" [(ngModel)]="radio">
-            {{ current_question?.varchar_2}}
-          </label>
-        </div>
-
-        <div class="form-check">
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="radio" id="choice3" value="3" [(ngModel)]="radio">
-            {{ current_question?.varchar_3}}
-          </label>
-        </div>
-
-        <div class="form-check">
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="radio" id="choice4" value="4" [(ngModel)]="radio">
-            {{ current_question?.varchar_4}}
-          </label>
-        </div>
       </fieldset>
       <button type="button" class="btn btn-primary btn-sm btn-block" (click)="onClickProceed(radio)">Next</button>
       <button type="button" class="btn btn-primary btn-sm btn-block">End Exam</button>
   </div>
-</div>
-<div *ngFor="let c of current_choices">
-  <span>{{ c.value }}</span>
 </div>
 </div>
