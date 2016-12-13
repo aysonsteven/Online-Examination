@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class MemberRoutingService {
+  userInfo = {
+    name:''
+  };
   logged: boolean;
   sessionData = <MEMBER_LOGIN_DATA>{};
   adminroute = <MEMBER_LOGIN_DATA>{};
@@ -12,33 +15,51 @@ export class MemberRoutingService {
     private router: Router,
     public member: Member
   ) { 
-    this.adminroute.id = 'aysonsteven';
-    this.adminroute.session_id = '00f9f98f9b41f684afabbe3c77e63eb7';
-    // this.adminData();
-    this.sessionData = this.member.logged();
-    this.checkLoginData();
+    this.adminData();
+    this.sessionData = this.member.getLoginData();
 
   }
   checkLoginData(){
     console.info( ' session service checklogin(()) ** ' );
-    if( this.sessionData && (this.sessionData.id == this.adminroute.id && this.sessionData.session_id == this.adminroute.session_id ) ){
-      console.log('admin', this.adminroute.id)
-      this.router.navigate(['dashboard']);
-      return;
+    if( this.sessionData ){
+      
+
+
+      if( this.sessionData && ( this.sessionData.id != this.adminroute.id ) ){
+        console.log( 'user', this.adminroute.id )
+        this.router.navigate( [ 'home' ] );
+        return;
+      }
+      
+    }
+    if( ! this.sessionData ){
+      this.router.navigate( [ 'login' ] )
+      return
     }
   }
 
+
+  checkAdminLogin(){
+ 
+ 
+    
+  }
+
+
   adminData(){
-     let data = <SEARCH_QUERY_DATA> {};
-     data.fields = "id, name";
-     data.from = "sf_member";
-     data.where = "stamp='1480649472'"
-     this.member.search( data, res=>{
-       this.adminroute = res.search[0];
-       console.info('admin search', this.adminroute.id)
-     }, e=>{
-       alert("error on search: " + e )
-     })
+    if( this.sessionData ){
+      let data        = <SEARCH_QUERY_DATA> {};
+          data.fields = "id, name, varchar_1";
+          data.from   = "sf_member";
+          data.where  = "stamp='1481621041'"
+      this.member.search( data, res=>{
+        this.adminroute = res.search[0];
+        console.info( 'admin search', this.adminroute.id )
+        this.checkLoginData();
+      }, e=>{
+        alert( "error on search: " + e )
+      })
     }
+  }
 
 }

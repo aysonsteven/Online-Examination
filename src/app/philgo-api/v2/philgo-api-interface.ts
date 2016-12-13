@@ -22,6 +22,7 @@ export interface PHILGO_API_RESPONSE {
     user_url_primary_photo?: string; // for user primary photo.
     version?: string;
     idx?: any; // for post/comment update.
+    varchar_1?:string;
 };
 export interface PHILGO_RESPONSE extends PHILGO_API_RESPONSE {};
 
@@ -116,6 +117,7 @@ export interface MEMBER_LOGIN_DATA {
     password?: string;      // member.password
     // idx?: string;           // member.idx. 회원 번호가 없이, 회원 아이디 + 세션 아이디로 로그인 가능하다.
     session_id?: string;    // member session_id
+    varchar_1?:string;
 };
 export interface MEMBER_LOGIN extends MEMBER_LOGIN_DATA {};
 
@@ -136,6 +138,7 @@ export interface FILE_UPLOAD_DATA {
     name: string;
     path: string;
     result: number;
+    error?: string;
     src_org: string;
     url: string;
     url_thumbnail: string;
@@ -162,6 +165,7 @@ export interface SEARCH_QUERY_DATA {
     where?: string;
     orderby?: string;
     limit?: string;
+    page?: number;
 };
 
 export interface PAGE_DATA {
@@ -216,24 +220,35 @@ export interface MEMBER {
     nickname: string;
 };
 
+
+export interface PHOTOS {
+    idx: number;
+    src?: string; // deprecated. remove this.
+    original_src?: string; // deprecated. remove this.
+    url?: string;
+    url_thumbnail?: string;
+};
+
+
+
 export interface COMMENT {
-    bad: string;
-    blind: string;
+    bad?: string;
+    blind?: string;
     content: string;
-    deleted: string;
-    depth: string;
+    deleted?: string;
+    depth?: string;
     gid: string;
-    good: string;
-    idx: string;
-    idx_member: string;
+    good?: string;
+    idx?: string;
+    idx_member?: string;
     idx_parent: string;
-    idx_root: string;
-    int_10: string;
-    member: MEMBER;
-    photos: string;
-    post_id: string;
-    stamp: string;
-    user_name: string;
+    idx_root?: string;
+    int_10?: string;
+    member?: MEMBER;
+    photos?: Array<PHOTOS>;
+    post_id?: string;
+    stamp?: string;
+    user_name?: string;
 };
 
 export interface POST {
@@ -260,12 +275,6 @@ export interface POST {
     stamp: string;
     subject: string;
     user_name: string;
-};
-
-export interface PHOTOS {
-    idx: number;
-    src: string;
-    original_src: string;   
 };
 
 export interface POSTS extends PHILGO_API_RESPONSE {

@@ -48,7 +48,7 @@ export class RegistrationComponent implements OnInit {
       }
       this.router.navigate( [ 'home' ] );
     }
-    console.log('not logged in')
+    
   }
 
 
@@ -56,8 +56,8 @@ export class RegistrationComponent implements OnInit {
   if(!this.memberService.logged) return;
   //
   this.member.data( userdata => {
-    this.registrationForm.id = this.memberService.sessionData.id;
-    this.registrationForm.name = userdata.name;
+    this.registrationForm.id    = this.memberService.sessionData.id;
+    this.registrationForm.name  = userdata.name;
     this.registrationForm.email = userdata.email;
 
   }, error =>{

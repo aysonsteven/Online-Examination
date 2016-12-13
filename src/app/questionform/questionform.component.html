@@ -3,7 +3,7 @@
     <button type="button" class="close" aria-label="Close" (click)="onClickDismiss()">
     <span aria-hidden="true">&times;</span>
     </button>
-    <h5 class="modal-title">
+    <h5 class="modal-title container">
       Add
     </h5>
 
@@ -59,7 +59,7 @@
       <div class="form-group row">
         <label for="answer" class="col-xs-3 col-form-label">Answer</label>
         <div class="col-xs-9">
-          <select [(ngModel)]="questionForm.answer" name="answer" id="answer">
+          <select class="form-control form-control-sm" [(ngModel)]="questionForm.answer" name="answer" id="answer">
             <option [value]='2' >{{ questionForm.choice1 }}</option>
             <option [value]='2' >{{ questionForm.choice2 }}</option>
             <option [value]='3' >{{ questionForm.choice3 }}</option>

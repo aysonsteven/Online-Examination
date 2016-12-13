@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Post, POST_DATA, SEARCH_QUERY_DATA } from '../philgo-api/v2/post';
 import { DataService } from '../services/data-service/data.service';
-
+import { Member } from '../philgo-api/v2/member';
+import { MemberRoutingService } from '../services/user-routing/member-routing.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,10 +17,14 @@ export class ExamhomeComponent implements OnInit {
   subject_data = [];
 
   constructor(
-    private post        : Post,
-    private router      : Router,
-    private dataService : DataService
+    private post          : Post,
+    private router        : Router,
+    private dataService   : DataService,
+    private memberService : MemberRoutingService,
+    private member        : Member
   ) {
+    // this.memberService.checkLoginData();
+    this.checkAdmin();
     this.getCategory();
    }
 
@@ -53,6 +58,17 @@ export class ExamhomeComponent implements OnInit {
   onChangeGetExam( subject_idx ){
     this.router.navigate( [ 'exam' ] );
     this.dataService.subjectIDX.idx = subject_idx;
+  }
+
+
+  checkAdmin(){
+    this.memberService.sessionData = this.member.getLoginData();
+    if( this.memberService.sessionData ){
+      console.log('checkAdmin(( ))');
+      if( this.memberService.sessionData.id == this.memberService.adminroute.id ){
+        console.log('this is admin acct');
+      }
+    }
   }
 
 }

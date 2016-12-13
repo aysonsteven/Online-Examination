@@ -11,12 +11,10 @@ import { Router } from '@angular/router';
 export class FrameComponent implements OnInit {
 
   constructor(
-    private sessionSrvc: MemberRoutingService,
-    private router: Router,
-    private member: Member
+    private sessionSrvc : MemberRoutingService,
+    private router      : Router,
+    private member      : Member
   ) {
-    this.sessionSrvc.adminData();
-    // this.sessionSrvc.checkLoginData();
    }
 
   ngOnInit() {

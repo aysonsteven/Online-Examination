@@ -24,15 +24,16 @@ export class ExampageComponent implements OnInit {
   current_question;
 
   constructor(
-    private dataService: DataService,
-    private post: Post,
-    private router: Router,
-    private authSrvc : MemberRoutingService
+    private dataService : DataService,
+    private post        : Post,
+    private router      : Router,
+    private authSrvc    : MemberRoutingService
   ) {
     this.subject = this.dataService.subjectIDX.idx;
     if( this.subject ){
       this.getExam();
       this.getSubject();
+
     }else{
       alert( 'select subject first' );
       this.router.navigate( [ 'home' ] );
@@ -46,37 +47,58 @@ export class ExampageComponent implements OnInit {
       this.subject_data = result.post;
       console.log('check content', this.subject_data.content)
       console.log('category ', result )
+
     }, error =>{})
   }
+
+
+
+
   getExam(){
     let data = <SEARCH_QUERY_DATA>{};
         data.fields   = "idx, content, varchar_1, varchar_2, varchar_3, varchar_4, varchar_5";
         data.from     = "sf_post_data";
         data.where    = "post_id='job' AND category='OES' AND subject='exam' AND varchar_6 ='" + this.subject + "'";
         data.orderby  = "idx asc";
+
       this.post.search( data, fetchedexam =>{
         this.exam_data = fetchedexam.search;
         this.questionCount = JSON.parse(JSON.stringify( fetchedexam.search ) );
         this.getCurrentQuestion();
+
       }, error =>{})
   }
+
+
+
+
+
+
 
   getCurrentQuestion(){
       this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) ) + 0;
       this.current_question = this.exam_data[ this.ctrRandom ];
+      
       if( this.ctrRandom ) this.loading = false;
   }
 
 
+
+
+
+
   onClickProceed( val? ){
     console.log( 'answer',  val, ' right answer', this.current_question.varchar_5 )
+
     if( this.validate_exam( val ) == false ) return;
     this.validate = '';
     this.ctr+=1;
+
     if( val == this.current_question.varchar_5 ){
       this.score+= 2;
       console.log( 'check', this.score )
     }
+
     this.randomizedQuestions();
   }
 

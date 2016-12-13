@@ -12,15 +12,15 @@
     </div>
   </div>
 
-
-  <button class="btn btn-secondary btn-sm" (click)="onClickAddQuestions()" *ngIf="activeCheck">Add Question</button>
-  <button class="btn btn-secondary btn-sm" disabled *ngIf="!activeCheck">Add Question</button>
 </div>
 
-<br/>
+
 <hr/>
-<ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="subjectInfo.varchar_1 == 'true'">
-  <ngb-panel id="{{ exam.idx }}" title="Question No. {{ i + 1}}" *ngFor="let exam of question_data; let i = index">
+  <button class="btn btn-secondary btn-sm" (click)="onClickAddQuestions()" *ngIf="activeCheck">Add Question</button>
+  <button class="btn btn-secondary btn-sm" disabled *ngIf="!activeCheck">Add Question</button>
+
+<ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="subjectInfo.varchar_1 == 'true'" activeIds="1" >
+  <ngb-panel id="{{ i + 1 }}" title="Question No. {{ i + 1}}" *ngFor="let exam of question_data; let i = index" >
     <template ngbPanelContent>
         {{ exam.content }}
       <ol choices>

@@ -3,7 +3,7 @@
   <div class="row">
     <button class="col-xs-3 btn btn-primary" (click)="onClickCreateCategory()"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
     <div class="col-xs-9">
-      <input class="form-control"  type="text" placeholder="&#xF002; Search">
+      <input class="form-control"  type="text" placeholder="&#xF002; Search" [(ngModel)]="search" (ngModelChange)="getCategory()" (keydown)="onEnterSearch($event)">
     </div>
   </div>
 <br/>

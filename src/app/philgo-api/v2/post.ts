@@ -5,7 +5,6 @@ import { PAGE_DATA, POSTS, POST_DATA, POST_RESPONSE } from './philgo-api-interfa
 export * from './philgo-api-interface';
 // import * as _ from 'lodash';
 
-
 @Injectable()
 export class Post extends Api {
 
@@ -22,7 +21,7 @@ export class Post extends Api {
         if ( data.action == 'post_write_submit' ) {
             if ( data.post_id === void 0 ) return 'post-id-is-empty';
             if ( data.gid === void 0 ) return 'gid-is-empty';
-            if ( data.subject === void 0 ) return 'subject-is-empty';
+            // if ( data.subject === void 0 ) return 'subject-is-empty'; // empty subject is ok.
         }
         else if  ( data.action == 'post_edit_submit' ) { // 글/코멘트 수정.
             if ( data.idx === void 0 ) return 'idx-is-empty';

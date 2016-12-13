@@ -3,7 +3,7 @@ import { Post, POST_DATA, SEARCH_QUERY_DATA } from '../philgo-api/v2/post'
 import { DataService } from '../services/data-service/data.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionformComponent } from '../questionform/questionform.component';
-
+import { MemberRoutingService } from '../services/user-routing/member-routing.service';
 import { Router, ActivatedRoute, Params } from'@angular/router';
 
 
@@ -24,15 +24,18 @@ export class QuestionsComponent implements OnInit {
   switch:boolean = false;
   subjectInfo: POST_DATA = <POST_DATA>[];
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private post: Post,
-    private dataService: DataService,
-    private modal: NgbModal
+    private activatedRoute  : ActivatedRoute,
+    private post            : Post,
+    private dataService     : DataService,
+    private modal           : NgbModal,
+    private memberService   : MemberRoutingService
   ) { 
+    this.memberService.checkLoginData();
     this.idx = this.activatedRoute.snapshot.params['idx'];
     if( this.dataService.categoryIDX ){
       this.categoryIDX = this.dataService.categoryIDX;
     }
+    
     this.getSubject();
     this.getCategory();
 
@@ -42,20 +45,36 @@ export class QuestionsComponent implements OnInit {
   ngOnInit() {
   }
 
+
+
+
+
+
   getSubject(){
     if( this.idx ){
       this.post.get( this.idx, subject =>{
         console.log( "SELECTED Subject()", subject );
         this.subjectInfo = subject.post;
-        if( this.subjectInfo.varchar_1 == 'false'){
+
+        if( this.subjectInfo.varchar_1 == 'false' ){
           this.activeCheck = false;
         }else this.activeCheck = true;
-        console.log('checking data' , this.subjectInfo)
+        console.log( 'checking data' , this.subjectInfo )
+
       }, err => alert( "Something went wrong " + err ) );
       return
     }
 
   }
+
+
+
+
+
+
+
+
+
   getCategory(){
     if( this.categoryIDX ){
       this.post.get( this.categoryIDX , category => {
@@ -74,16 +93,22 @@ export class QuestionsComponent implements OnInit {
         })
   }
 
+
+
+
+
   onClickEdit( idx, content, choice1, choice2, choice3, choice4, answer ){
     let modalReference = this.modal.open( QuestionformComponent );
+
         modalReference.componentInstance.idx = idx;
         modalReference.componentInstance.questionForm.question = content;
         modalReference.componentInstance.questionForm.choice1  = choice1;
-        modalReference.componentInstance.questionForm.choice2 = choice2;
-        modalReference.componentInstance.questionForm.choice3 = choice3;
-        modalReference.componentInstance.questionForm.choice4 = choice4;
-        modalReference.componentInstance.questionForm.answer = answer;
-      modalReference.componentInstance.submit.subscribe( edit_question =>{
+        modalReference.componentInstance.questionForm.choice2  = choice2;
+        modalReference.componentInstance.questionForm.choice3  = choice3;
+        modalReference.componentInstance.questionForm.choice4  = choice4;
+        modalReference.componentInstance.questionForm.answer   = answer;
+
+        modalReference.componentInstance.submit.subscribe( edit_question =>{
         console.log( 'successfully edited', edit_question );
         this.getQuestions();
       })
@@ -100,14 +125,22 @@ export class QuestionsComponent implements OnInit {
     }, err =>{})
   }
 
+
+
+
+
+
   onClickDelete( idx, index ){
-    let confirmDelete = confirm('Are you sure you want to delete this?');
+    let confirmDelete = confirm( 'Are you sure you want to delete this?' );
+
     if( confirmDelete == true ){
       console.log( 'deleting' , idx );
       this.post.delete( idx, res=>{
         alert('deleted ' + idx);
         this.question_data.splice( index, 1 );
+
       }, error=>alert( 'error '+ error ) )
+
     }else console.log( 'canceled!' )
   }
   

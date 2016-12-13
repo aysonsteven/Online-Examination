@@ -3,12 +3,12 @@ import { Post, POST_DATA } from '../philgo-api/v2/post';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface form{
-  question:string;
-  choice1:string;
-  choice2:string;
-  choice3:string;
-  choice4:string;
-  answer:string;
+  question  : string;
+  choice1   : string;
+  choice2   : string;
+  choice3   : string;
+  choice4   : string;
+  answer    : string;
 }
 
 @Component({

@@ -58,8 +58,10 @@ export class Member extends Api {
                 id: data.user_id,
                 session_id: data.session_id,
                 idx: data.idx_member,
-                stamp: data.user_stamp
+                stamp: data.user_stamp,
+                varchar_1: data.varchar_1 
             };
+            console.log('test', login )
             this.setLoginData( login );
             successCallback( login );
         },
@@ -140,7 +142,7 @@ export class Member extends Api {
      * This 'setLoginData()' method must be here while 'getLoginDta()' is on parent class.
      */
     setLoginData( data ) : void {
-        let login = { id: data.id, session_id: data.session_id };
+        let login = { id: data.id, session_id: data.session_id, varchar_1: data.varchar_1 };
         let str = JSON.stringify( login );
         localStorage.setItem( PHILGO_MEMBER_LOGIN, str );
     }
