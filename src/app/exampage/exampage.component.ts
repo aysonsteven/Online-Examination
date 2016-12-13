@@ -5,12 +5,15 @@ import { Router } from '@angular/router';
 import { DataService } from '../services/data-service/data.service';
 import { MemberRoutingService } from '../services/user-routing/member-routing.service'
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-exampage',
   templateUrl: './exampage.component.html',
   styleUrls: ['./exampage.component.scss']
 })
 export class ExampageComponent implements OnInit {
+  current_choices;
   score: number = 0;
   validate;
   loading:boolean = true;
@@ -69,7 +72,17 @@ export class ExampageComponent implements OnInit {
       }, error =>{})
   }
 
-
+  extractingChoices( i ){
+    let temp = []
+    let tempval ={}
+    let tempq = this.exam_data[i]
+    for( let key in tempq ){
+      temp.push( tempq[key] )
+    }
+    tempval = {choice1:[1,temp[2]], choice2:[2,temp[3]], choice3:[3,temp[4]], choice4:[4,temp[5]] }
+    this.current_choices = _.shuffle(tempval)
+    console.log( '2nd ', _.shuffle(tempval) );
+  }
 
 
 
@@ -80,6 +93,7 @@ export class ExampageComponent implements OnInit {
       this.current_question = this.exam_data[ this.ctrRandom ];
       
       if( this.ctrRandom ) this.loading = false;
+      this.extractingChoices(this.ctrRandom);
   }
 
 
@@ -98,9 +112,11 @@ export class ExampageComponent implements OnInit {
       this.score+= 2;
       console.log( 'check', this.score )
     }
-
     this.randomizedQuestions();
   }
+
+
+
 
 
   validate_exam( val ){
@@ -128,7 +144,9 @@ export class ExampageComponent implements OnInit {
 
     this.exam_data.splice( this.ctrRandom, 1 );    
     this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) );
+    
     this.current_question = this.exam_data[ this.ctrRandom ];
+    this.extractingChoices( this.ctrRandom );
   }
 
 }

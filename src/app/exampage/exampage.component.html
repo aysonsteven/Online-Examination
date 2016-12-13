@@ -42,5 +42,7 @@
       <button type="button" class="btn btn-primary btn-sm btn-block">End Exam</button>
   </div>
 </div>
-
+<div *ngFor="let c of current_choices">
+  <span>{{ c.value }}</span>
+</div>
 </div>
