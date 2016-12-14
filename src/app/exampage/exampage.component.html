@@ -1,25 +1,26 @@
 <div class="container">
-  
+ <div *ngIf="countdown">{{ countdown }}</div>
     <div></div>
 
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h3 class="display-4">{{ subject_data?.content }}</h3>
+     
+    <h3 class="display-4">{{ subject_data.post?.content }}</h3>
     <p class="lead">{{ current_question?.content }}</p>
 
       <fieldset class="form-group">
         <legend>Choices</legend>
         <div class="form-check" *ngFor="let c of current_choices">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="radio" id="choice1" value="{{c.key}}" checked [(ngModel)]="radio">
+            <input type="radio" class="form-check-input" name="radio" id="choice1" value="{{c.key}}" [(ngModel)]="radio">
             {{ c.value }}
           </label>
         </div>
 
       </fieldset>
       <button type="button" class="btn btn-primary btn-sm btn-block" (click)="onClickProceed(radio)">Next</button>
-      <button type="button" class="btn btn-primary btn-sm btn-block">End Exam</button>
+      <button type="button" class="btn btn-primary btn-sm btn-block" (click)="onClickFinish()">End Exam</button>
   </div>
 </div>
 </div>

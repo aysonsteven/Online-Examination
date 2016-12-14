@@ -24,7 +24,8 @@ export class ExamhomeComponent implements OnInit {
     private member        : Member
   ) {
     // this.memberService.checkLoginData();
-    this.checkAdmin();
+    this.memberService.adminData();
+    
     this.getCategory();
    }
 
@@ -59,16 +60,4 @@ export class ExamhomeComponent implements OnInit {
     this.router.navigate( [ 'exam' ] );
     this.dataService.subjectIDX.idx = subject_idx;
   }
-
-
-  checkAdmin(){
-    this.memberService.sessionData = this.member.getLoginData();
-    if( this.memberService.sessionData ){
-      console.log('checkAdmin(( ))');
-      if( this.memberService.sessionData.id == this.memberService.adminroute.id ){
-        console.log('this is admin acct');
-      }
-    }
-  }
-
 }

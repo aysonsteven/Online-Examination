@@ -30,7 +30,7 @@ export class QuestionsComponent implements OnInit {
     private modal           : NgbModal,
     private memberService   : MemberRoutingService
   ) { 
-    this.memberService.checkLoginData();
+    this.memberService.adminData();
     this.idx = this.activatedRoute.snapshot.params['idx'];
     if( this.dataService.categoryIDX ){
       this.categoryIDX = this.dataService.categoryIDX;

@@ -5,6 +5,8 @@ interface subject{
 }
 @Injectable()
 export class DataService {
+
+  activeCheck:boolean;
   
   playerStats={
     name: null,
@@ -17,4 +19,10 @@ export class DataService {
 
   constructor() { }
 
+  check_status( isActive ){
+      if( isActive == 'true') {
+        return true;
+      }
+      else return false;
+  }
 }

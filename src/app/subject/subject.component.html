@@ -11,10 +11,10 @@
 </div>
 <br/>
 
-<div class="table-responsive">
+<div class="">
 
 
-<table class="table">
+<table class="table table-hover table-bordered">
   <thead>
     <tr>
 
@@ -39,8 +39,50 @@
       </td>
 
       <td>
+<!--ACTIONS-->
 
-        <span class="tag tag-info" (click)="onClickAddQuestions(subject.idx, subject.varchar_2 )"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+
+<div class="btn-group btn-group-sm">
+  <button type="button" class="btn btn-secondary">Action</button>
+  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" (click)="onClickEdit( subject.idx, subject.content, subject.varchar_1, subject.varchar_2, subject.varchar_3 )">
+        <span class="tag tag-success">
+          <i class="fa fa-pencil-square-o" aria-hidden="true">
+          </i>
+        </span> 
+        EDIT
+    </a>
+    <a class="dropdown-item" (click)="onClickDelete( subject.idx, i )">
+        <span class="tag tag-danger" (click)="onClickDelete( category.idx, i )">
+          <i class="fa fa-trash-o" aria-hidden="true">
+          </i>
+        </span>
+        DELETE
+    </a>
+
+    <div class="dropdown-divider"></div>
+
+    <a class="dropdown-item" (click)="onClickAddQuestions(subject.idx, subject.varchar_2 )">
+      <span class="tag tag-info" >
+        <i class="fa fa-pencil" aria-hidden="true">
+        </i>
+      </span>
+        ADD EXAM
+    </a>
+
+  </div>
+</div>
+
+
+
+
+        <!--<span class="tag tag-info" (click)="onClickAddQuestions(subject.idx, subject.varchar_2 )">
+              <i class="fa fa-pencil" aria-hidden="true">
+              </i>
+            </span>
         <span class="tag tag-success" (click)="onClickEdit( subject.idx, subject.content, subject.varchar_1, subject.varchar_2, subject.varchar_3 )">
           <i class="fa fa-pencil-square-o" aria-hidden="true">
           </i>
@@ -48,8 +90,8 @@
         <span class="tag tag-danger" (click)="onClickDelete( subject.idx, i )">
           <i class="fa fa-trash-o" aria-hidden="true">
           </i>
-        </span>
-
+        </span>-->
+<!--ACTIONS-->
       </td>
     </tr>
   </tbody>

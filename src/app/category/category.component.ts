@@ -4,7 +4,7 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 import { CategoryformComponent } from '../categoryform/categoryform.component';
 import { Post, SEARCH_QUERY_DATA, POST_DATA } from '../philgo-api/v2/post';
 import { MemberRoutingService } from '../services/user-routing/member-routing.service';
-
+import { DataService } from '..//services/data-service/data.service'
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -20,9 +20,10 @@ export class CategoryComponent implements OnInit {
     private router        : Router,
     private modal         : NgbModal,
     private post          : Post,
-    private memberService : MemberRoutingService
+    private memberService : MemberRoutingService,
+    private dataService   : DataService
   ) {
-    this.memberService.checkLoginData();
+    this.memberService.adminData();
     this.getCategory();
    }
 
@@ -127,12 +128,15 @@ export class CategoryComponent implements OnInit {
 
 
   onClickEdit( idx, content, isActive ){
+
+
+
     console.log( 'edit Fired' , idx );
 
     let modalReference = this.modal.open( CategoryformComponent );
         modalReference.componentInstance.idx = idx;
         modalReference.componentInstance.categoryForm.name = content;
-        modalReference.componentInstance.categoryForm.isActive = isActive;
+        modalReference.componentInstance.categoryForm.isActive = this.dataService.check_status( isActive );
 
         modalReference.componentInstance.submit.subscribe( category =>{
           console.log( 'respone ', category );

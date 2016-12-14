@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Post, POST_DATA, SEARCH_QUERY_DATA } from '../philgo-api/v2/post';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Post, POST_DATA, SEARCH_QUERY_DATA, POST_RESPONSE } from '../philgo-api/v2/post';
 import { Router } from '@angular/router';
 
 import { DataService } from '../services/data-service/data.service';
@@ -7,24 +7,36 @@ import { MemberRoutingService } from '../services/user-routing/member-routing.se
 
 import * as _ from 'lodash';
 
+
+
+
 @Component({
   selector: 'app-exampage',
   templateUrl: './exampage.component.html',
   styleUrls: ['./exampage.component.scss']
 })
-export class ExampageComponent implements OnInit {
+export class ExampageComponent implements OnInit, OnDestroy {
+
+  today = new Date();
+
+  min:number = 0;
+  sec:number = 60;
+
+  radio;
   current_choices;
   score: number = 0;
   validate;
   loading:boolean = true;
   ctr: number = 0;
   ctrRandom:number;
-  subject_data;
+  subject_data = <POST_RESPONSE>{};
   exam_data =[];
   subject:number;
   questionCount;
   current_question;
-
+  duration:number;
+  countdown:string;
+  private time;
   constructor(
     private dataService : DataService,
     private post        : Post,
@@ -40,18 +52,62 @@ export class ExampageComponent implements OnInit {
       alert( 'select subject first' );
       this.router.navigate( [ 'home' ] );
     }
+    
+
+    console.log( 'timer' , this.countdown )
    }
 
+
   ngOnInit() {
+    this.time = setInterval( ()=>{
+      this.startTimer(  );
+    }, 1000 )
   }
+
+
+
+  ngOnDestroy() {
+    clearInterval(this.time);
+  }
+
+
+
   getSubject(){
     this.post.get( this.subject, result =>{
-      this.subject_data = result.post;
-      console.log('check content', this.subject_data.content)
+      this.subject_data = result;
+      console.log('check content', this.subject_data.post.content)
       console.log('category ', result )
-
+      this.min = this.subject_data.post.varchar_3;
     }, error =>{})
   }
+
+
+  timer(){
+    
+  }
+  startTimer(){
+    console.log( 'duration' )
+
+    this.sec -- ;
+    if( this.sec == 0){
+
+      if( this.min != 0 ){
+        this.min--;
+        this.sec = 59;
+      } else this.onClickFinish();
+      
+      console.log('check minutes ',this.min)
+    }
+
+    let minDisplay = this.min >= 10 ? "" + this.min  : "0"+ this.min;
+    let secDisplay = this.sec >= 10 ? "" + this.sec : "0" + this.sec;
+    this.countdown = minDisplay + ":" + secDisplay;
+    console.log( 'timer' , this.countdown )
+
+
+  }
+ 
+
 
 
 
@@ -107,6 +163,7 @@ export class ExampageComponent implements OnInit {
 
 
   onClickProceed( val? ){
+    if( this.validate_exam( this.radio ) == false)
     console.log( 'answer',  val, ' right answer', this.current_question.varchar_5 )
 
     if( this.validate_exam( val ) == false ) return;
@@ -117,7 +174,8 @@ export class ExampageComponent implements OnInit {
       this.score+= 2;
       console.log( 'check', this.score )
     }
-    this.randomizedQuestions();
+    this.randomizedQuestions(); 
+    this.radio = '';
   }
 
 
@@ -125,7 +183,7 @@ export class ExampageComponent implements OnInit {
 
 
   validate_exam( val ){
-    if( val == null ){
+    if( val == null || val == '' ){
       this.validate = 'No answer selected'
       console.log( this.validate );
       return false;
@@ -133,7 +191,11 @@ export class ExampageComponent implements OnInit {
     this.validate = '';
     return true;
   }
-
+  onClickFinish(){
+      this.router.navigate( [ 'final' ] );
+      this.dataService.playerStats.score = this.score;
+      this.dataService.playerStats.total = this.questionCount.count;
+  }
   randomizedQuestions(){
       
     // if( ! this.authSrvc.sessionData ) {  
@@ -142,9 +204,7 @@ export class ExampageComponent implements OnInit {
     // }
     if ( this.ctr >= this.questionCount.length ){
       console.log( 'end' );
-      this.router.navigate( [ 'final' ] );
-      this.dataService.playerStats.score = this.score;
-      this.dataService.playerStats.total = this.questionCount.count;
+      this.onClickFinish();
   }
 
     this.exam_data.splice( this.ctrRandom, 1 );    

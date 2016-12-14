@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private memberSrvc: MemberRoutingService
   ) { 
-    this.memberSrvc.checkLoginData();
+    this.memberSrvc.adminData();
    }
 
   ngOnInit() {

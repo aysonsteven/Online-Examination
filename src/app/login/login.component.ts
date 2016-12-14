@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private router      : Router,
     private memberSrvc  : MemberRoutingService
   ) { 
-    this.memberSrvc.checkLoginData();
+    this.memberSrvc.adminData();
     
   }
 

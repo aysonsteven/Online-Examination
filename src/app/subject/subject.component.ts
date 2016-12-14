@@ -27,7 +27,7 @@ export class SubjectComponent implements OnInit {
     private dataService: DataService,
     private memberService: MemberRoutingService
   ) {
-    this.memberService.checkLoginData();
+    this.memberService.adminData();
     this.getCategory();
     
    }
@@ -121,12 +121,13 @@ export class SubjectComponent implements OnInit {
 
   onClickEdit( idx, content, isActive, category, duration ){
     console.log( 'Subject Form Model Fired', idx );
+
     let modalReference = this.modal.open( SubjectformComponent );
 
         modalReference.componentInstance.idx                   = idx;
         modalReference.componentInstance.subject_form.subject  = content;
         modalReference.componentInstance.subject_form.category = category;
-        modalReference.componentInstance.subject_form.isActive = isActive;
+        modalReference.componentInstance.subject_form.isActive = this.dataService.check_status( isActive );
         modalReference.componentInstance.subject_form.duration = duration;
         
         modalReference.componentInstance.submit.subscribe( result =>{

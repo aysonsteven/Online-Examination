@@ -1,31 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Member } from '../../philgo-api/v2/member';
 import { MEMBER_LOGIN_DATA, SEARCH_QUERY_DATA} from '../../philgo-api/v2/philgo-api-interface';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class MemberRoutingService {
+export class MemberRoutingService  {
   userInfo = {
     name:''
   };
   logged: boolean;
   sessionData = <MEMBER_LOGIN_DATA>{};
   adminroute = <MEMBER_LOGIN_DATA>{};
+  isAdmin:boolean = false;
   constructor(
     private router: Router,
     public member: Member
   ) { 
-    this.adminData();
     this.sessionData = this.member.getLoginData();
 
   }
-  checkLoginData(){
+  checkLoginData( val ){
     console.info( ' session service checklogin(()) ** ' );
+
     if( this.sessionData ){
-      
-
-
-      if( this.sessionData && ( this.sessionData.id != this.adminroute.id ) ){
+      if( ( this.sessionData.id == val ) ){
+        console.log('true')
+        this.isAdmin = true;
+        return
+      }
+      if( this.sessionData && ( this.sessionData.id != val ) ){
         console.log( 'user', this.adminroute.id )
         this.router.navigate( [ 'home' ] );
         return;
@@ -38,11 +41,10 @@ export class MemberRoutingService {
     }
   }
 
+  
+
 
   checkAdminLogin(){
- 
- 
-    
   }
 
 
@@ -51,11 +53,11 @@ export class MemberRoutingService {
       let data        = <SEARCH_QUERY_DATA> {};
           data.fields = "id, name, varchar_1";
           data.from   = "sf_member";
-          data.where  = "stamp='1481621041'"
+          data.where  = "id='ayson_steven'"
       this.member.search( data, res=>{
         this.adminroute = res.search[0];
         console.info( 'admin search', this.adminroute.id )
-        this.checkLoginData();
+        this.checkLoginData( this.adminroute.id );
       }, e=>{
         alert( "error on search: " + e )
       })
