@@ -127,21 +127,17 @@ export class CategoryComponent implements OnInit {
 
 
 
-  onClickEdit( idx, content, isActive ){
+  onClickEdit( category, index ){
 
 
 
-    console.log( 'edit Fired' , idx );
+    console.log( 'edit Fired' , category );
 
     let modalReference = this.modal.open( CategoryformComponent );
-        modalReference.componentInstance.idx = idx;
-        modalReference.componentInstance.categoryForm.name = content;
-        modalReference.componentInstance.categoryForm.isActive = this.dataService.check_status( isActive );
 
-        modalReference.componentInstance.submit.subscribe( category =>{
-          console.log( 'respone ', category );
-          this.getCategory();
-        })
+        modalReference.componentInstance.category = category;
+
+
   }
 
 }

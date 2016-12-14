@@ -21,6 +21,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
   min:number = 0;
   sec:number = 60;
+  hr:number  = 0;
 
   radio;
   current_choices;
@@ -43,7 +44,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
     private router      : Router,
     private authSrvc    : MemberRoutingService
   ) {
-    this.subject = this.dataService.subjectIDX.idx;
+    this.subject = this.dataService.subjectIDX.idx;///getting the subject IDX passed from dataservice
     if( this.subject ){
       this.getExam();
       this.getSubject();
@@ -66,9 +67,18 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
 
+
+
+
+
+
   ngOnDestroy() {
-    clearInterval(this.time);
+    clearInterval(this.time);///stoping and clearing timer onDestroy it'll stop the timer onDestroy or whenever the user leaves the component.
   }
+
+
+
+
 
 
 
@@ -82,15 +92,26 @@ export class ExampageComponent implements OnInit, OnDestroy {
   }
 
 
-  timer(){
-    
-  }
+
+
+
+
   startTimer(){
     console.log( 'duration' )
 
-    this.sec -- ;
-    if( this.sec == 0){
+    ///checking and computing mins if it's value is 60 or more.
+    if( this.min >= 60 ){
+      this.hr = Math.round( this.min / 60 );
+      console.log('checking value ', Math.round( this.min / 60 ))
+      this.min =  this.min - (60 * Math.round( this.min / 60 ) );
+      
+      console.log('Hour ', this.hr )
+    }
 
+    this.sec -- ;
+
+    if( this.sec == 0){
+      
       if( this.min != 0 ){
         this.min--;
         this.sec = 59;
@@ -98,15 +119,18 @@ export class ExampageComponent implements OnInit, OnDestroy {
       
       console.log('check minutes ',this.min)
     }
-
-    let minDisplay = this.min >= 10 ? "" + this.min  : "0"+ this.min;
+    ///formating Hours, Minutes, and Seconds for display
+    let hrDisplay  = this.hr  >= 10 ? "" + this.hr  : "0" + this.hr;
+    let minDisplay = this.min >= 10 ? "" + this.min : "0" + this.min;
     let secDisplay = this.sec >= 10 ? "" + this.sec : "0" + this.sec;
-    this.countdown = minDisplay + ":" + secDisplay;
-    console.log( 'timer' , this.countdown )
 
+    this.countdown = hrDisplay+ ":" +minDisplay + ":" + secDisplay;
+
+    console.log( 'timer' , this.countdown )
 
   }
  
+
 
 
 
@@ -127,23 +151,33 @@ export class ExampageComponent implements OnInit, OnDestroy {
       }, error =>{})
   }
 
-  extractingChoices( i ){
-    let temp = []
-    let tempval ={}
-    let tempq = this.exam_data[i]
-    for( let key in tempq ){
-      temp.push( tempq[key] )
+
+
+
+
+
+  randomizeChoices( i ){
+    let temp                 = []
+    let restructured_choices ={}
+    let currentquestion      = this.exam_data[i]
+    for( let key in currentquestion ){
+      temp.push( currentquestion[key] )
     }
-    tempval =
+
+
+    restructured_choices =
       { 'choices' : [
         {'key': 1, 'value':temp[2]}, 
         {'key': 2, 'value':temp[3]},
         {'key': 3, 'value':temp[4]},
         {'key': 4, 'value':temp[5]} 
         ]};
-    this.current_choices = _.shuffle(tempval['choices'])
-    console.log( '2nd ', _.shuffle(tempval['choices']) );
+        
+    this.current_choices = _.shuffle(restructured_choices['choices'])
+    console.log( '2nd ', _.shuffle(restructured_choices['choices']) );
   }
+
+
 
 
 
@@ -154,7 +188,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
       this.current_question = this.exam_data[ this.ctrRandom ];
       
       if( this.ctrRandom ) this.loading = false;
-      this.extractingChoices(this.ctrRandom);
+      this.randomizeChoices(this.ctrRandom);
   }
 
 
@@ -191,27 +225,36 @@ export class ExampageComponent implements OnInit, OnDestroy {
     this.validate = '';
     return true;
   }
+
+
+
+
+
+
   onClickFinish(){
       this.router.navigate( [ 'final' ] );
       this.dataService.playerStats.score = this.score;
       this.dataService.playerStats.total = this.questionCount.count;
   }
+
+
+
+
+
+
   randomizedQuestions(){
-      
-    // if( ! this.authSrvc.sessionData ) {  
-    //   this.dataService.playerStats.name = this.playerName;
-    //   console.info( 'name', this.playerName, ' ', this.playerStats.playerStats.name )
-    // }
+
+    
     if ( this.ctr >= this.questionCount.length ){
       console.log( 'end' );
-      this.onClickFinish();
+      this.onClickFinish();////onClickFinish( ) will fire if there is no more questions left.
   }
 
-    this.exam_data.splice( this.ctrRandom, 1 );    
-    this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) );
+    this.exam_data.splice( this.ctrRandom, 1 );///removes the item/question from array.    
+    this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) );///getting a random number within the range of the max number of quesiton.
     
-    this.current_question = this.exam_data[ this.ctrRandom ];
-    this.extractingChoices( this.ctrRandom );
+    this.current_question = this.exam_data[ this.ctrRandom ];/// getting a random question using the ctrRandom as index
+    this.randomizeChoices( this.ctrRandom );///passing ctrRandom for randomizing choices.
   }
 
 }

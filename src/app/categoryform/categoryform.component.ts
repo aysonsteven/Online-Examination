@@ -1,41 +1,47 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Post, POST_DATA } from '../philgo-api/v2/post';
 
 interface form{
-  name?     : string;
-  isActive  : boolean;
+  idx:any;
+  content     : string;
+  varchar_1  ?: boolean;
 }
 @Component({
   selector: 'app-categoryform',
   templateUrl: './categoryform.component.html',
   styleUrls: ['./categoryform.component.scss'],
-  inputs: [ 'category', 'idx', 'content', 'varchar_1' ],
+  inputs: [ 'category' ],
   outputs:[ 'submit' ]
 })
-export class CategoryformComponent  {
+export class CategoryformComponent implements OnInit {
+  category = <POST_DATA>{};
 
-  idx: '';
-  content: '';
-  varchar_1:boolean = false;
 
-  categoryForm: form = <form>{
-    isActive: this.varchar_1,
-    name: this.content
-  };
+
+  categoryForm: form = <form>{};
   submit = new EventEmitter();
 
   constructor(
     private modal : NgbActiveModal,
     private post  : Post
-  ) { }
+  ) { 
+    console.log('modal ' , this.category)
+  
+  }
 
 
+  initialize_data(){
+    this.categoryForm.idx = this.category.idx;
+    this.categoryForm.content = this.category.content;
+    this.categoryForm.varchar_1 = this.category.varchar_1;
+  }
 
 
-
-
+  ngOnInit(){
+  this.initialize_data();
+  }
 
 
 
@@ -47,27 +53,14 @@ export class CategoryformComponent  {
 
 
 
-
-
-
-
-
-
   onClickDismiss(){
     this.modal.dismiss('dismiss');
   }
 
 
 
-
-
-
-
-
-
-
-
   onClickSubmit(){
+    console.log('modal ' , this.category)
       let category        = <POST_DATA> {};
         category.id       = 'category';
         category.gid      = 'default';
@@ -76,23 +69,24 @@ export class CategoryformComponent  {
         category.subject  = 'category';
 
     if( this.validateForm() == false ) return;
-    if( this.idx ){
+    if( this.category ){
       console.log('edit');
-        category.idx = this.idx;
-        category.content = this.categoryForm.name;
-        category.varchar_1 = this.categoryForm.isActive.toString();
+        category.idx = this.category.idx;
+        category.content = this.categoryForm.content;
+        category.varchar_1 = this.categoryForm.varchar_1.toString();
 
       this.post.update( category, editResult =>{
-        this.submit.emit( editResult )
         console.info(editResult)
+        this.category.content = category.content;
+        this.category.varchar_1 = category.varchar_1.toString();
         this.modal.close()
 
       }, err =>{})
       return;
     }
     console.log('add');
-        category.content = this.categoryForm.name;
-        category.varchar_1 = this.categoryForm.isActive.toString();
+        category.content = this.categoryForm.content;
+        category.varchar_1 = this.categoryForm.varchar_1.toString();
 
       this.post.create( category, postData =>{
         console.log( 'sucess on creating category', postData )
@@ -110,10 +104,8 @@ export class CategoryformComponent  {
 
 
 
-
-
   validateForm(){
-    if( this.categoryForm.name == "" || this.categoryForm.name == null){
+    if( this.categoryForm.content == "" || this.categoryForm.content == null){
             console.log('error');
       return false;
     }

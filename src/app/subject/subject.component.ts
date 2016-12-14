@@ -119,21 +119,13 @@ export class SubjectComponent implements OnInit {
 
 
 
-  onClickEdit( idx, content, isActive, category, duration ){
-    console.log( 'Subject Form Model Fired', idx );
+  onClickEdit( subject ){
+    console.log( 'Subject Form Model Fired', subject.idx );
 
     let modalReference = this.modal.open( SubjectformComponent );
 
-        modalReference.componentInstance.idx                   = idx;
-        modalReference.componentInstance.subject_form.subject  = content;
-        modalReference.componentInstance.subject_form.category = category;
-        modalReference.componentInstance.subject_form.isActive = this.dataService.check_status( isActive );
-        modalReference.componentInstance.subject_form.duration = duration;
+        modalReference.componentInstance.subject = subject;
         
-        modalReference.componentInstance.submit.subscribe( result =>{
-          console.log('result ', result)
-          this.getCategory();
-        })
   }
 
 
