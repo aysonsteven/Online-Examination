@@ -117,6 +117,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
         this.sec = 60;
       } else this.onClickFinish();
       
+      
       console.log('check minutes ',this.min)
     }
     this.sec -- ;

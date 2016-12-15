@@ -7,7 +7,6 @@ import { MemberRoutingService } from '../services/user-routing/member-routing.se
 import { Router, ActivatedRoute, Params } from'@angular/router';
 
 
-
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -22,7 +21,7 @@ export class QuestionsComponent implements OnInit {
   categoryIDX:number;
   categoryInfo: POST_DATA = <POST_DATA>[];
   switch:boolean = false;
-  subjectInfo: POST_DATA = <POST_DATA>[];
+  subjectInfo: POST_DATA  = <POST_DATA>[];
   constructor(
     private activatedRoute  : ActivatedRoute,
     private post            : Post,
