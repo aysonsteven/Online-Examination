@@ -8,6 +8,7 @@ export class MemberRoutingService  {
   userInfo = {
     name:''
   };
+  
   logged: boolean;
   sessionData = <MEMBER_LOGIN_DATA>{};
   adminroute = <MEMBER_LOGIN_DATA>{};
@@ -16,25 +17,25 @@ export class MemberRoutingService  {
     private router: Router,
     public member: Member
   ) { 
+    this.adminroute.id = 'ayson_steven'
     this.sessionData = this.member.getLoginData();
 
   }
-  checkLoginData( val ){
-    console.info( ' session service checklogin(()) ** ' );
+  checkLoginData( ){
+    console.info( ' session service checklogin(()) ** ', this.adminroute.id );
 
-    if( this.sessionData ){
-      if( ( this.sessionData.id == val ) ){
+    
+      if( ( this.sessionData.id == this.adminroute.id ) ){
         console.log('true')
-        this.isAdmin = true;
-        return
+        return true;
       }
-      if( this.sessionData && ( this.sessionData.id != val ) ){
+      
+      if( this.sessionData && ( this.sessionData.id != this.adminroute.id ) ){
         console.log( 'user', this.adminroute.id )
         this.router.navigate( [ 'home' ] );
         return;
       }
       
-    }
     if( ! this.sessionData ){
       this.router.navigate( [ 'login' ] )
       return
@@ -49,7 +50,7 @@ export class MemberRoutingService  {
 
 
   adminData(){
-    if( this.sessionData ){
+   
       let data        = <SEARCH_QUERY_DATA> {};
           data.fields = "id, name, varchar_1";
           data.from   = "sf_member";
@@ -57,11 +58,11 @@ export class MemberRoutingService  {
       this.member.search( data, res=>{
         this.adminroute = res.search[0];
         console.info( 'admin search', this.adminroute.id )
-        this.checkLoginData( this.adminroute.id );
+     
       }, e=>{
         alert( "error on search: " + e )
       })
     }
   }
 
-}
+

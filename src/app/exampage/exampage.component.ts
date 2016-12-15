@@ -156,27 +156,24 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
   randomizeChoices( i ){
+    ///changing the structure of choices for randomization without requesting from server.
     let temp                 = []
     let restructured_choices ={}
-    let currentquestion      = this.exam_data[i]
+    let currentquestion      = this.exam_data[ i ]
     for( let key in currentquestion ){
-      temp.push( currentquestion[key] )
+      temp.push( currentquestion[ key ] )
     }
-
-
     restructured_choices =
       { 'choices' : [
-        {'key': 1, 'value':temp[2]}, 
-        {'key': 2, 'value':temp[3]},
-        {'key': 3, 'value':temp[4]},
-        {'key': 4, 'value':temp[5]} 
+        { 'key': 1, 'value':temp[ 2 ] }, 
+        { 'key': 2, 'value':temp[ 3 ] },
+        { 'key': 3, 'value':temp[ 4 ] },
+        { 'key': 4, 'value':temp[ 5 ] } 
         ]};
         
-    this.current_choices = _.shuffle(restructured_choices['choices'])
-    console.log( '2nd ', _.shuffle(restructured_choices['choices']) );
+    this.current_choices = _.shuffle( restructured_choices[ 'choices' ] )
+    console.log( '2nd ', _.shuffle( restructured_choices[ 'choices' ] ) );
   }
-
-
 
 
 
@@ -231,7 +228,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
   onClickFinish(){
       this.router.navigate( [ 'final' ] );
       this.dataService.playerStats.score = this.score;
-      this.dataService.playerStats.total = this.questionCount.count;
+      this.dataService.playerStats.total_questions = this.questionCount.length;
   }
 
 

@@ -13,14 +13,14 @@ import { AppComponent } from './app.component';
 import { FrameComponent } from './frame/frame.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CategoryComponent } from './category/category.component';
+
 import { SubjectComponent } from './subject/subject.component';
 import { ExamhomeComponent } from './examhome/examhome.component';
 import { UsersComponent } from './users/users.component';
 import { ResultsComponent } from './results/results.component';
-import { CategoryformComponent } from './categoryform/categoryform.component';
+
 import { SubjectformComponent } from './subjectform/subjectform.component';
-import { CategoryparentComponent } from './categoryparent/categoryparent.component';
+
 import { QuestionsComponent } from './questions/questions.component';
 
 import { DataService } from './services/data-service/data.service';
@@ -36,14 +36,11 @@ import { FinalComponent } from './final/final.component';
     FrameComponent,
     LoginComponent,
     DashboardComponent,
-    CategoryComponent,
     SubjectComponent,
     ExamhomeComponent,
     UsersComponent,
     ResultsComponent,
-    CategoryformComponent,
     SubjectformComponent,
-    CategoryparentComponent,
     QuestionsComponent,
     RegistrationComponent,
     QuestionformComponent,
@@ -59,6 +56,6 @@ import { FinalComponent } from './final/final.component';
   ],
   providers: [ Member, MemberRoutingService, NgbActiveModal, Post, DataService ],
   bootstrap: [AppComponent],
-  entryComponents:[ CategoryComponent, SubjectformComponent, CategoryformComponent, QuestionformComponent ]
+  entryComponents:[ SubjectformComponent, QuestionformComponent ]
 })
 export class AppModule { }

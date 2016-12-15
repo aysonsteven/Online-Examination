@@ -27,7 +27,7 @@ export class SubjectComponent implements OnInit {
     private dataService: DataService,
     private memberService: MemberRoutingService
   ) {
-    this.memberService.adminData();
+    this.memberService.checkLoginData();
     this.getSubject();
    }
 
@@ -52,8 +52,12 @@ export class SubjectComponent implements OnInit {
     }
   }
   
-  getSubject(  ){
 
+
+
+
+
+  getSubject(  ){
     if( this.search != '' ) return; 
     console.log( "LIST Fired", this.filtered_category );
     let data = <SEARCH_QUERY_DATA>{};
@@ -66,16 +70,16 @@ export class SubjectComponent implements OnInit {
   }
 
 
+
+
+
+
   passingSubject_data( data ){
       this.post.search( data, fetched_data =>{
         this.subject_data = fetched_data.search;
         console.log('success this data', this.subject_data);
       }, error => alert( "something went wrong" + error ) )
   }
-
-
-
-
 
 
 
@@ -97,6 +101,7 @@ export class SubjectComponent implements OnInit {
 
 
 
+
   onClickEdit( subject ){
     console.log( 'Subject Form Model Fired', subject.idx );
 
@@ -104,6 +109,9 @@ export class SubjectComponent implements OnInit {
 
         modalReference.componentInstance.subject = subject;        
   }
+
+
+
 
 
 

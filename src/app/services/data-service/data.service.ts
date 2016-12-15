@@ -11,7 +11,7 @@ export class DataService {
   playerStats={
     name: null,
     score: null,
-    total: null
+    total_questions: null
   }
   categoryIDX:number;
 

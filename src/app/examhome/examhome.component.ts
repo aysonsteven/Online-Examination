@@ -23,13 +23,21 @@ export class ExamhomeComponent implements OnInit {
     private memberService : MemberRoutingService,
     private member        : Member
   ) {
-    // this.memberService.checkLoginData();
-    this.memberService.adminData();
+    if( this.memberService.checkLoginData() == true ) this.router.navigate( [ 'dashboard' ] );
     this.getSubject();
    }
 
+
+
+
+
+
+
   ngOnInit() {
   }
+
+
+
 
 
 
@@ -37,7 +45,7 @@ export class ExamhomeComponent implements OnInit {
     let data = <SEARCH_QUERY_DATA>{};
         data.fields   = "idx, content";
         data.from     = "sf_post_data";
-        data.where    = "post_id='job' AND subject='subject'";
+        data.where    = "post_id='job' AND subject='subject' AND varchar_1 ='true'";
       this.post.search( data, fetchedsubject =>{
         this.subject_data = fetchedsubject.search;
         if(this.subject_data.length == 0) this.enabled = false;
@@ -45,6 +53,9 @@ export class ExamhomeComponent implements OnInit {
         console.log( 'fetched subject', this.subject_data.length )
       }, error =>{})
   }
+
+
+
 
   onChangeGetExam( subject_idx ){
     this.router.navigate( [ 'exam' ] );

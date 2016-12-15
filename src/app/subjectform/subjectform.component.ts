@@ -34,6 +34,11 @@ export class SubjectformComponent implements OnInit {
     
   }
 
+
+
+
+
+
   ngOnInit() {
     this.getCategory();
     this.initialize_data();///initializing data for editing
@@ -55,7 +60,7 @@ export class SubjectformComponent implements OnInit {
 
 
   onClickCancel(){
-     this.modal.close('Close');
+     this.modal.close( 'Close' );
   }
 
 
@@ -87,9 +92,7 @@ export class SubjectformComponent implements OnInit {
         subject.varchar_3 = this.subject_form.duration;
 
     if( this.subject.idx ) {
-      
         subject.idx       = this.subject.idx;
-
       this.post.update( subject , updatedSubject =>{
         
         this.subject.content   = this.subject_form.subject;
@@ -102,8 +105,7 @@ export class SubjectformComponent implements OnInit {
     }
 
       this.post.create( subject, subjectData =>{
-        console.log( 'result ', subjectData.post)
-        // this.submit.emit( subjectData.post );
+        console.log( 'result ', subjectData.post )
         this.subject_list.push( subjectData.post )
         this.modal.close();
 
