@@ -20,9 +20,6 @@ English Quiz Module
 
 
 ###TODOs
-    File Structure
-    Student Panel
+    File/Folder Structure
+    User Ionic-Hack
 
-###Admin:
-    id: aysonsteven
-    pw: mypassword

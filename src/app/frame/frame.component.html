@@ -33,7 +33,7 @@
                 <a class="nav-link" routerLink="dashboard/subjects">Subjects</a>
              </li>
 
-             <li class="nav-item"><a *ngIf="sessionSrvc.sessionData && sessionSrvc.sessionData.id == sessionSrvc.adminroute?.id " 
+             <li class="nav-item"><a *ngIf="sessionSrvc.sessionData && sessionSrvc.sessionData.id != sessionSrvc.adminroute?.id " 
                  class="nav-link"
                  routerLink="results">Results</a>
              </li>              

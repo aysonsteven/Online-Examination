@@ -13,8 +13,6 @@ import * as _ from 'lodash';
   styleUrls: ['./subject.component.scss']
 })
 export class SubjectComponent implements OnInit {
-
-
   
   search:string = '';
   category_data = [];
@@ -124,7 +122,7 @@ export class SubjectComponent implements OnInit {
       console.log( 'delete' , idx );
       this.post.delete( idx, res=>{
         this.subject_data.splice( index, 1 );
-        alert( 'deleted ' + idx );
+        console.log( 'deleted ' + idx );
       }, error=>alert( 'error '+ error ) )
 
     }else console.log( 'canceled!' )

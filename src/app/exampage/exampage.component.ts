@@ -136,10 +136,11 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
   getExam(){
+
     let data = <SEARCH_QUERY_DATA>{};
         data.fields   = "idx, content, varchar_1, varchar_2, varchar_3, varchar_4, varchar_5";
         data.from     = "sf_post_data";
-        data.where    = "post_id='job' AND category='OES' AND subject='exam' AND varchar_6 ='" + this.subject + "'";
+        data.where    = "post_id='job' AND category='OES' AND subject='exam' AND varchar_6 ='" + this.subject + "'";///where clause| gets only the set of questions for the selected subject.
         data.orderby  = "idx asc";
 
       this.post.search( data, fetchedexam =>{
@@ -178,11 +179,9 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
   getCurrentQuestion(){
-      this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) ) + 0;
-      this.current_question = this.exam_data[ this.ctrRandom ];
-      
-      if( this.ctrRandom ) this.loading = false;
-      this.randomizeChoices(this.ctrRandom);
+      this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) ) + 0;//// randomizing a number within the range of the max quantity of questions
+      this.current_question = this.exam_data[ this.ctrRandom ]; ///using the random number as index to get the random current question.      
+      this.randomizeChoices(this.ctrRandom);///method that randomize choices.
   }
 
 
@@ -190,15 +189,15 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
 
-  onClickProceed( val? ){
-    if( this.validate_exam( this.radio ) == false)
-    console.log( 'answer',  val, ' right answer', this.current_question.varchar_5 )
+  onClickNext( radio? ){
+    if( this.validate_exam( this.radio ) == false)///validates if the user selected an answer.
 
-    if( this.validate_exam( val ) == false ) return;
+    console.log( 'answer',  radio, ' right answer', this.current_question.varchar_5 )
+    if( this.validate_exam( radio ) == false ) return;
     this.validate = '';
     this.ctr+=1;
 
-    if( val == this.current_question.varchar_5 ){
+    if( radio == this.current_question.varchar_5 ){
       this.score+= 2;
       console.log( 'check', this.score )
     }
@@ -211,6 +210,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
   validate_exam( val ){
+    ///form validation
     if( val == null || val == '' ){
       this.validate = 'No answer selected'
       console.log( this.validate );
@@ -227,8 +227,10 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
   onClickFinish(){
       this.router.navigate( [ 'final' ] );
+      /////passing data to data service.
       this.dataService.playerStats.score = this.score;
       this.dataService.playerStats.total_questions = this.questionCount.length;
+      this.dataService.playerStats.subject = this.subject_data.post.content;
   }
 
 
@@ -237,17 +239,15 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
 
   randomizedQuestions(){
-
-    
-    if ( this.ctr >= this.questionCount.length ){
+    if ( this.ctr >= this.questionCount.length ){ ////checks if there is no more questions left.
       console.log( 'end' );
-      this.onClickFinish();////onClickFinish( ) will fire if there is no more questions left.
-  }
+      this.onClickFinish();
+    }
 
-    this.exam_data.splice( this.ctrRandom, 1 );///removes the item/question from array.    
+    this.exam_data.splice( this.ctrRandom, 1 );///removes the item/question from array so it won't repeat.    
     this.ctrRandom = Math.floor( Math.random() * ( this.exam_data.length - 1 + 1 ) );///getting a random number within the range of the max number of quesiton.
     
-    this.current_question = this.exam_data[ this.ctrRandom ];/// getting a random question using the ctrRandom as index
+    this.current_question = this.exam_data[ this.ctrRandom ];/// getting the next random question using the ctrRandom as index
     this.randomizeChoices( this.ctrRandom );///passing ctrRandom for randomizing choices.
   }
 

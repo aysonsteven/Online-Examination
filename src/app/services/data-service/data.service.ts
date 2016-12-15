@@ -9,6 +9,7 @@ export class DataService {
   activeCheck:boolean;
   
   playerStats={
+    subject:null,
     name: null,
     score: null,
     total_questions: null
