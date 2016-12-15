@@ -28,8 +28,7 @@ export class SubjectComponent implements OnInit {
     private memberService: MemberRoutingService
   ) {
     this.memberService.adminData();
-    this.getCategory();
-    
+    this.getSubject();
    }
 
   ngOnInit() {
@@ -44,9 +43,9 @@ export class SubjectComponent implements OnInit {
     if(event.keyCode == 13) {
       console.log( 'search' );
       let data = <SEARCH_QUERY_DATA> {};
-          data.fields = 'idx, content, subject, category, varchar_1, varchar_2, varchar_3';
+          data.fields = 'idx, content, subject, category, varchar_1, varchar_3';
           data.from = 'sf_post_data';
-          data.where = "post_id='job' AND category='OES' AND subject='subject' AND content LIKE '%" + this.search +"%' AND varchar_2 in ('" + this.filtered_category + "')";
+          data.where = "post_id='job' AND category='OES' AND subject='subject' AND content LIKE '%" + this.search +"%'";
           data.orderby = "idx asc";
 
       this.passingSubject_data( data );
@@ -58,9 +57,9 @@ export class SubjectComponent implements OnInit {
     if( this.search != '' ) return; 
     console.log( "LIST Fired", this.filtered_category );
     let data = <SEARCH_QUERY_DATA>{};
-        data.fields   = 'idx, content, subject, category, varchar_1, varchar_2, varchar_3';
+        data.fields   = 'idx, content, subject, category, varchar_1, varchar_3';
         data.from     = "sf_post_data";
-        data.where    = "post_id='job' AND category='OES' AND subject='subject' AND varchar_2 in('" + this.filtered_category +"')";
+        data.where    = "post_id='job' AND category='OES' AND subject='subject'";
         data.orderby  = "idx asc";
       
       this.passingSubject_data( data );
@@ -77,20 +76,6 @@ export class SubjectComponent implements OnInit {
 
 
 
-  getCategory(){
-    console.log( "LIST Fired" );
-    let data         = <SEARCH_QUERY_DATA>{};
-        data.fields  = 'idx';
-        data.from    = "sf_post_data";
-        data.where   = "post_id='job' AND category='OES' AND subject='category' AND varchar_1='true'";
-        data.orderby = "idx asc";
-      this.post.search( data, categoryData =>{
-        this.category_data = categoryData.search;
-        console.log('checking ' , this.category_data )
-        this.filteringCategory( categoryData.search );
-      }, error => alert( "something went wrong" + error ) )
-      
-  }
 
 
 
@@ -155,10 +140,11 @@ export class SubjectComponent implements OnInit {
 
   onClickCreateSubjectModal(){
     let modalReference = this.modal.open( SubjectformComponent );
-        modalReference.componentInstance.submit.subscribe( post=>{
-          this.subject_data.push (post )
-          console.log( 'check result' + post )
-        })
+        modalReference.componentInstance.subject_list = this.subject_data;
+        // modalReference.componentInstance.submit.subscribe( post=>{
+        //   this.subject_data.push (post )
+        //   console.log( 'check result' + post )
+        // })
   }
 
 }

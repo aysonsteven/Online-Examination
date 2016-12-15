@@ -87,31 +87,19 @@ export class QuestionsComponent implements OnInit {
     console.log('passing idx',this.idx)
     let modalReference = this.modal.open( QuestionformComponent );
         modalReference.componentInstance.subjectidx = this.idx
-        modalReference.componentInstance.submit.subscribe( exam =>{
-          console.log( 'exam added', exam )
-          this.question_data.push( exam );
-        })
+        modalReference.componentInstance.questions_list = this.question_data;
   }
 
 
 
 
 
-  onClickEdit( idx, content, choice1, choice2, choice3, choice4, answer ){
+  onClickEdit( question ){
     let modalReference = this.modal.open( QuestionformComponent );
 
-        modalReference.componentInstance.idx = idx;
-        modalReference.componentInstance.questionForm.question = content;
-        modalReference.componentInstance.questionForm.choice1  = choice1;
-        modalReference.componentInstance.questionForm.choice2  = choice2;
-        modalReference.componentInstance.questionForm.choice3  = choice3;
-        modalReference.componentInstance.questionForm.choice4  = choice4;
-        modalReference.componentInstance.questionForm.answer   = answer;
+        modalReference.componentInstance.question = question;
 
-        modalReference.componentInstance.submit.subscribe( edit_question =>{
-        console.log( 'successfully edited', edit_question );
-        this.getQuestions();
-      })
+
   }
 
   getQuestions(){

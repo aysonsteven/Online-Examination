@@ -8,7 +8,6 @@ interface form {
   idx       : number;
   subject  ?: string;
   isActive  : boolean;
-  category  : string;
   duration  : number;
 }
 
@@ -16,9 +15,10 @@ interface form {
   selector: 'app-subjectform',
   templateUrl: './subjectform.component.html',
   styleUrls: ['./subjectform.component.scss'],
-  inputs: [ 'subject' ]
+  inputs: [ 'subject', 'subject_list' ]
 })
 export class SubjectformComponent implements OnInit {
+  subject_list = [];
   subject = <POST_DATA>{}
 
   subject_form = <form>{}
@@ -44,7 +44,6 @@ export class SubjectformComponent implements OnInit {
   initialize_data(){
     this.subject_form.idx = this.subject_form.idx;
     this.subject_form.isActive = this.dataService.check_status( this.subject.varchar_1 );
-    this.subject_form.category = this.subject.varchar_2;
     this.subject_form.duration = this.subject.varchar_3;
     this.subject_form.subject = this.subject.content;
   }
@@ -85,20 +84,16 @@ export class SubjectformComponent implements OnInit {
         subject.subject   = "subject";
         subject.content   = this.subject_form.subject;
         subject.varchar_1 = this.subject_form.isActive.toString();
-        subject.varchar_2 = this.subject_form.category;
         subject.varchar_3 = this.subject_form.duration;
 
-    console.log( 'selected ' + this.subject_form.category )
-
     if( this.subject.idx ) {
-      console.log('edit ',  this.subject.idx );
+      
         subject.idx       = this.subject.idx;
 
       this.post.update( subject , updatedSubject =>{
-        console.log('result edit ', updatedSubject );
+        
         this.subject.content   = this.subject_form.subject;
         this.subject.varchar_1 = this.subject_form.isActive.toString();
-        this.subject.varchar_2 = this.subject_form.category;
         this.subject.varchar_3 = this.subject_form.duration;
         this.modal.close();
 
@@ -108,11 +103,11 @@ export class SubjectformComponent implements OnInit {
 
       this.post.create( subject, subjectData =>{
         console.log( 'result ', subjectData.post)
-        this.submit.emit( subjectData.post );
+        // this.submit.emit( subjectData.post );
+        this.subject_list.push( subjectData.post )
         this.modal.close();
 
       }, error => console.error( 'error creating subject ' + error ) )
-    console.log('check value', JSON.stringify(this.subject_form.category))
   }
 
 

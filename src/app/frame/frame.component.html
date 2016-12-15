@@ -29,12 +29,8 @@
              </li>
 
 
-             <li class="nav-item dropdown bg-primary" *ngIf="sessionSrvc.sessionData && sessionSrvc.sessionData.id == sessionSrvc.adminroute?.id">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="responsiveNavbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modules</a>
-                <div class="dropdown-menu bg-primary" aria-labelledby="responsiveNavbarDropdown">
-                    <a class="dropdown-item" routerLink="dashboard/category">Category</a>
-                    <a class="dropdown-item" routerLink="dashboard/subjects">Subjects</a>
-                </div>
+             <li class="nav-item" *ngIf="sessionSrvc.sessionData && sessionSrvc.sessionData.id == sessionSrvc.adminroute?.id">
+                <a class="nav-link" routerLink="dashboard/subjects">Subjects</a>
              </li>
 
              <li class="nav-item"><a *ngIf="sessionSrvc.sessionData && sessionSrvc.sessionData.id == sessionSrvc.adminroute?.id " 

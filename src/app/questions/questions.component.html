@@ -1,9 +1,9 @@
 <div class="container-fluid">
-  <div *ngIf="!categoryInfo.content">loading</div>
-  <div class="jumbotron jumbotron-fluid" *ngIf="categoryInfo.content">
+  <div *ngIf="!subjectInfo.content">loading</div>
+  <div class="jumbotron jumbotron-fluid" *ngIf="subjectInfo.content">
     <div class="container">
       <h1 class="display-3">{{ subjectInfo.content }}</h1>
-      <p class="lead">Category: {{ categoryInfo.content }}</p>
+      
       <p class="lead">Status: 
         <span *ngIf="subjectInfo.varchar_1 == 'true'"><span class="tag tag-success">Active</span></span>
         <span *ngIf="subjectInfo.varchar_1 == 'false'"><span class="tag tag-danger">Inactive</span></span>
@@ -31,7 +31,7 @@
       </ol>
       <hr/>
       <h4>{{ exam.varchar_5 }}</h4>
-      <button class="btn btn-success btn-sm" (click)="onClickEdit( exam.idx, exam.content, exam.varchar_1, exam.varchar_2, exam.varchar_3, exam.varchar_4, exam.varchar_5 )">EDIT</button> |
+      <button class="btn btn-success btn-sm" (click)="onClickEdit( exam )">EDIT</button> |
       <button class="btn btn-danger btn-sm" (click)="onClickDelete( exam.idx, i )">DELETE</button>  
       
   

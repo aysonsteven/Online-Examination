@@ -20,7 +20,7 @@ export class ExampageComponent implements OnInit, OnDestroy {
   today = new Date();
 
   min:number = 0;
-  sec:number = 60;
+  sec:number = 0;
   hr:number  = 0;
 
   radio;
@@ -108,17 +108,18 @@ export class ExampageComponent implements OnInit, OnDestroy {
       console.log('Hour ', this.hr )
     }
 
-    this.sec -- ;
+    
 
     if( this.sec == 0){
       
       if( this.min != 0 ){
         this.min--;
-        this.sec = 59;
+        this.sec = 60;
       } else this.onClickFinish();
       
       console.log('check minutes ',this.min)
     }
+    this.sec -- ;
     ///formating Hours, Minutes, and Seconds for display
     let hrDisplay  = this.hr  >= 10 ? "" + this.hr  : "0" + this.hr;
     let minDisplay = this.min >= 10 ? "" + this.min : "0" + this.min;
@@ -130,8 +131,6 @@ export class ExampageComponent implements OnInit, OnDestroy {
 
   }
  
-
-
 
 
 
@@ -176,8 +175,6 @@ export class ExampageComponent implements OnInit, OnDestroy {
     this.current_choices = _.shuffle(restructured_choices['choices'])
     console.log( '2nd ', _.shuffle(restructured_choices['choices']) );
   }
-
-
 
 
 

@@ -25,29 +25,19 @@ export class ExamhomeComponent implements OnInit {
   ) {
     // this.memberService.checkLoginData();
     this.memberService.adminData();
-    
-    this.getCategory();
+    this.getSubject();
    }
 
   ngOnInit() {
   }
 
-  getCategory(){
-    let data = <SEARCH_QUERY_DATA>{}
-        data.fields  = "idx, content";
-        data.from    = "sf_post_data";
-        data.where   = "post_id='job' AND subject='category' AND varchar_1 ='true'"
-        data.orderby = "idx asc";
-    this.post.search( data, fetchedcategory =>{
-      this.category_data = fetchedcategory.search;
-    }, error =>{})
-  }
 
-  onChangeGetSubject( category ){
+
+  getSubject( ){
     let data = <SEARCH_QUERY_DATA>{};
         data.fields   = "idx, content";
         data.from     = "sf_post_data";
-        data.where    = "post_id='job' AND subject='subject' AND varchar_2='"+ category + "'";
+        data.where    = "post_id='job' AND subject='subject'";
       this.post.search( data, fetchedsubject =>{
         this.subject_data = fetchedsubject.search;
         if(this.subject_data.length == 0) this.enabled = false;
