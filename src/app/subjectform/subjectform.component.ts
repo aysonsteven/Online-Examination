@@ -2,9 +2,11 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Post, POST_DATA, SEARCH_QUERY_DATA } from '../philgo-api/v2/post';
+import { DataService } from '../services/data-service/data.service';
 
 interface form {
-  subject   ?: string;
+  idx       : number;
+  subject  ?: string;
   isActive  : boolean;
   category  : string;
   duration  : number;
@@ -25,19 +27,23 @@ export class SubjectformComponent implements OnInit {
   submit = new EventEmitter();
 
   constructor(
-    private modal : NgbActiveModal,
-    private post  : Post
+    private modal       : NgbActiveModal,
+    private post        : Post,
+    private dataService : DataService
   ) { 
     
   }
 
   ngOnInit() {
     this.getCategory();
-    this.initialize_data();
+    this.initialize_data();///initializing data for editing
   }
 
+
+
   initialize_data(){
-    this.subject_form.isActive = this.subject.varchar_1.toString();
+    this.subject_form.idx = this.subject_form.idx;
+    this.subject_form.isActive = this.dataService.check_status( this.subject.varchar_1 );
     this.subject_form.category = this.subject.varchar_2;
     this.subject_form.duration = this.subject.varchar_3;
     this.subject_form.subject = this.subject.content;
@@ -70,35 +76,39 @@ export class SubjectformComponent implements OnInit {
 
 
   onClickSubmit(){
+
     let subject           = <POST_DATA>{};
         subject.id        = "subject";
         subject.gid       = "default";
         subject.post_id   = "job";
         subject.category  = "OES";
         subject.subject   = "subject";
-    console.log( 'selected ' + this.subject_form.category )
-    if( this.subject ) {
-      console.log('edit ',  this.subject.idx );
-        subject.idx       = this.subject.idx;
         subject.content   = this.subject_form.subject;
         subject.varchar_1 = this.subject_form.isActive.toString();
         subject.varchar_2 = this.subject_form.category;
         subject.varchar_3 = this.subject_form.duration;
+
+    console.log( 'selected ' + this.subject_form.category )
+
+    if( this.subject.idx ) {
+      console.log('edit ',  this.subject.idx );
+        subject.idx       = this.subject.idx;
+
       this.post.update( subject , updatedSubject =>{
         console.log('result edit ', updatedSubject );
-        this.submit.emit( updatedSubject );
+        this.subject.content   = this.subject_form.subject;
+        this.subject.varchar_1 = this.subject_form.isActive.toString();
+        this.subject.varchar_2 = this.subject_form.category;
+        this.subject.varchar_3 = this.subject_form.duration;
         this.modal.close();
-      }, error =>{})
+
+      }, error => alert( "Something went wrong " + error ) )
       return
     }
 
-        subject.content   = this.subject_form.subject;
-        subject.varchar_1 = this.subject_form.isActive.toString();
-        subject.varchar_2 = this.subject_form.category;
-        subject.varchar_3 = this.subject_form.duration;
-
       this.post.create( subject, subjectData =>{
-        this.submit.emit( subjectData.post )
+        console.log( 'result ', subjectData.post)
+        this.submit.emit( subjectData.post );
         this.modal.close();
 
       }, error => console.error( 'error creating subject ' + error ) )

@@ -49,11 +49,7 @@ export class SubjectComponent implements OnInit {
           data.where = "post_id='job' AND category='OES' AND subject='subject' AND content LIKE '%" + this.search +"%' AND varchar_2 in ('" + this.filtered_category + "')";
           data.orderby = "idx asc";
 
-        this.post.search( data, search_data =>{
-          this.subject_data = search_data.search;
-          console.log( "search result", search_data );
-
-        }, error => alert( "error on search : " + error ) )
+      this.passingSubject_data( data );
     }
   }
   
@@ -66,16 +62,17 @@ export class SubjectComponent implements OnInit {
         data.from     = "sf_post_data";
         data.where    = "post_id='job' AND category='OES' AND subject='subject' AND varchar_2 in('" + this.filtered_category +"')";
         data.orderby  = "idx asc";
+      
+      this.passingSubject_data( data );
+  }
+
+
+  passingSubject_data( data ){
       this.post.search( data, fetched_data =>{
         this.subject_data = fetched_data.search;
         console.log('success this data', this.subject_data);
       }, error => alert( "something went wrong" + error ) )
   }
-
-
-
-
-
 
 
 
@@ -100,8 +97,6 @@ export class SubjectComponent implements OnInit {
 
 
 
-
-
   filteringCategory( val ){
     
         let temp = [];
@@ -117,35 +112,32 @@ export class SubjectComponent implements OnInit {
 
 
 
-
-
   onClickEdit( subject ){
     console.log( 'Subject Form Model Fired', subject.idx );
 
     let modalReference = this.modal.open( SubjectformComponent );
 
-        modalReference.componentInstance.subject = subject;
-        
+        modalReference.componentInstance.subject = subject;        
   }
-
-
 
 
 
 
 
   onClickDelete( idx, index ){
-    let confirmDelete = confirm('Are you sure you want to delete this?');
-    if( confirmDelete == true){
+    let confirmDelete = confirm( 'Are you sure you want to delete this?' );
+    if( confirmDelete == true ){
 
-      console.log('delete' , idx);
+      console.log( 'delete' , idx );
       this.post.delete( idx, res=>{
-        alert('deleted ' + idx);
         this.subject_data.splice( index, 1 );
-      }, error=>alert('error '+ error))
+        alert( 'deleted ' + idx );
+      }, error=>alert( 'error '+ error ) )
 
-    }else console.log('canceled!')
+    }else console.log( 'canceled!' )
   }
+
+
 
 
 
@@ -161,12 +153,11 @@ export class SubjectComponent implements OnInit {
 
 
 
-
-
   onClickCreateSubjectModal(){
     let modalReference = this.modal.open( SubjectformComponent );
-        modalReference.componentInstance.submit.subscribe( subject =>{
-          this.subject_data.push( subject );
+        modalReference.componentInstance.submit.subscribe( post=>{
+          this.subject_data.push (post )
+          console.log( 'check result' + post )
         })
   }
 

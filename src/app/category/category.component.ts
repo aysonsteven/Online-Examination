@@ -44,18 +44,10 @@ export class CategoryComponent implements OnInit {
           data.where = "post_id='job' AND category='OES' AND subject='category' AND content LIKE '%" + this.search +"%'";
           data.orderby = "idx asc";
 
-        this.post.search( data, fetched_data =>{
-          this.category_data = fetched_data.search;
-          console.log( "search result", fetched_data );
+        this.passing_data( data )
 
-        }, error => alert( "error on search : " + error ) )
     }
   }
-
-
-
-
-
 
 
 
@@ -70,13 +62,6 @@ export class CategoryComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-
   getCategory(){
     if( this.search != ''  ) return;
     console.log( "LIST Fired" );
@@ -87,6 +72,14 @@ export class CategoryComponent implements OnInit {
         data.where   = "post_id='job' AND category='OES' AND subject='category'";
         data.orderby = "idx asc";
 
+      this.passing_data( data );
+
+  }
+
+
+
+
+  passing_data( data ){
       this.post.search( data, categoryData =>{
         this.category_data = categoryData.search;
         console.log('success', this.category_data);
@@ -102,12 +95,12 @@ export class CategoryComponent implements OnInit {
 
 
 
-
   onClickDelete( idx, index ){
     let confirmDelete = confirm('Are you sure you want to delete this?');
     if( confirmDelete == true){
 
       console.log('delete' , idx);
+
       this.post.delete( idx, res=>{
         this.category_data.splice( index, 1 );
         console.log('deleted ' + idx);
@@ -125,11 +118,7 @@ export class CategoryComponent implements OnInit {
 
 
 
-
-
   onClickEdit( category, index ){
-
-
 
     console.log( 'edit Fired' , category );
 
