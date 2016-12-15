@@ -147,10 +147,7 @@ export class SubjectComponent implements OnInit {
   onClickCreateSubjectModal(){
     let modalReference = this.modal.open( SubjectformComponent );
         modalReference.componentInstance.subject_list = this.subject_data;
-        // modalReference.componentInstance.submit.subscribe( post=>{
-        //   this.subject_data.push (post )
-        //   console.log( 'check result' + post )
-        // })
+
   }
 
 }
