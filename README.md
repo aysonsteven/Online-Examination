@@ -21,5 +21,5 @@ English Quiz Module
 
 ###TODOs
     File/Folder Structure
-    User Ionic-Hack
+    Use Ionic-Hack
 
